@@ -22,3 +22,7 @@ staticfiles/
 
 # Logs
 *.log
+
+# Node
+node_modules/
+.vite/
