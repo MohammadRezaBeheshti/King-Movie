@@ -1,0 +1,28 @@
+:root {
+  /* Fonts */
+  --font-sans: "Arad", sans-serif;
+
+  /* Radius */
+  --radius: 16px;
+
+  /* Colors */
+  --background: #f8fafc;
+  --foreground: #111827;
+
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --border: #e2e8f0;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --muted: #1e293b;
+  --border: #334155;
+}
