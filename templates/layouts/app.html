@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block layout %}
+
+{% include "components/navbar.html" %}
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+{% include "components/footer.html" %}
+
+{% endblock %}
