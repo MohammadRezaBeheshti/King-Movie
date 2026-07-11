@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Favorite, Rating, Review, Watchlist
+
+admin.site.register(Favorite)
+admin.site.register(Watchlist)
+admin.site.register(Rating)
+admin.site.register(Review)
