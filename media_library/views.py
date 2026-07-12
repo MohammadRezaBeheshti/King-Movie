@@ -1,9 +1,90 @@
-from django.db.models import Prefetch
+from django.core.paginator import Paginator
+from django.db.models import Prefetch, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 
 from interactions.forms import RatingForm, ReviewForm
 from interactions.models import Favorite, Rating, Review, Watchlist
-from media_library.models import Episode, Media, Season
+from media_library.forms import SearchForm
+from media_library.models import Actor, Country, Director, Episode, Genre, Media, MediaStatus, MediaType, Season
+
+
+SEARCH_SORT_CHOICES = [
+    ("-release_date", "جدیدترین"),
+    ("release_date", "قدیمی‌ترین"),
+    ("-imdb_rating", "بالاترین امتیاز IMDb"),
+    ("persian_title", "عنوان فارسی"),
+]
+
+
+def get_search_filter_choices():
+    return {
+        "media_types": [("", "همه نوع‌ها"), *MediaType.choices],
+        "genres": [("", "همه ژانرها"), *[(genre.slug, genre.name) for genre in Genre.objects.all()]],
+        "countries": [("", "همه کشورها"), *[(country.code, country.name) for country in Country.objects.all()]],
+        "statuses": [("", "همه وضعیت‌ها"), *MediaStatus.choices],
+        "directors": [("", "همه کارگردان‌ها"), *[(str(director.id), director.full_name) for director in Director.objects.all()]],
+        "actors": [("", "همه بازیگران"), *[(str(actor.id), actor.full_name) for actor in Actor.objects.all()]],
+        "sorts": SEARCH_SORT_CHOICES,
+    }
+
+
+def get_optimized_media_queryset():
+    return Media.objects.select_related().prefetch_related(
+        "genres",
+        "actors",
+        "directors",
+        "countries",
+    )
+
+
+def apply_media_search_filters(queryset, form):
+    if not form.is_valid():
+        return queryset.none()
+
+    data = form.cleaned_data
+    query = data.get("q")
+
+    if query:
+        queryset = queryset.filter(
+            Q(persian_title__icontains=query)
+            | Q(original_title__icontains=query)
+            | Q(title__icontains=query)
+        )
+
+    if data.get("type"):
+        queryset = queryset.filter(media_type=data["type"])
+
+    if data.get("genre"):
+        queryset = queryset.filter(genres__slug=data["genre"])
+
+    if data.get("country"):
+        queryset = queryset.filter(countries__code=data["country"])
+
+    if data.get("year_from"):
+        queryset = queryset.filter(release_date__year__gte=data["year_from"])
+
+    if data.get("year_to"):
+        queryset = queryset.filter(release_date__year__lte=data["year_to"])
+
+    if data.get("rating"):
+        queryset = queryset.filter(imdb_rating__gte=data["rating"])
+
+    if data.get("status"):
+        queryset = queryset.filter(status=data["status"])
+
+    if data.get("director"):
+        queryset = queryset.filter(directors__id=data["director"])
+
+    if data.get("actor"):
+        queryset = queryset.filter(actors__id=data["actor"])
+
+    sort = data.get("sort") or "-release_date"
+    allowed_sorts = {value for value, _ in SEARCH_SORT_CHOICES}
+    if sort not in allowed_sorts:
+        sort = "-release_date"
+
+    return queryset.distinct().order_by(sort)
 
 
 def home(request):
@@ -37,9 +118,83 @@ def home(request):
         "latest_series": latest_series,
         "latest_anime": latest_anime,
         "hero_item": hero_item,
+        "search_form": SearchForm(filter_choices=get_search_filter_choices()),
     }
 
     return render(request, "pages/home.html", context)
+
+
+def search_suggestions(request):
+    query = request.GET.get("q", "").strip()
+
+    if len(query) < 2:
+        return JsonResponse({"results": []})
+
+    results = (
+        get_optimized_media_queryset()
+        .filter(
+            Q(persian_title__icontains=query)
+            | Q(original_title__icontains=query)
+            | Q(title__icontains=query)
+        )
+        .order_by("-release_date")[:8]
+    )
+
+    payload = []
+    for media in results:
+        payload.append({
+            "title": media.persian_title or media.title,
+            "original_title": media.original_title,
+            "year": media.release_date.year if media.release_date else "",
+            "type": media.get_media_type_display(),
+            "rating": str(media.imdb_rating) if media.imdb_rating else "",
+            "poster": media.poster.url if media.poster else "",
+            "url": f"/media/{media.slug}/",
+        })
+
+    return JsonResponse({"results": payload})
+
+
+def search(request):
+    filter_choices = get_search_filter_choices()
+    form = SearchForm(request.GET, filter_choices=filter_choices)
+    queryset = apply_media_search_filters(get_optimized_media_queryset(), form)
+
+    paginator = Paginator(queryset, 12)
+    page_obj = paginator.get_page(request.GET.get("page"))
+    query_params = request.GET.copy()
+    query_params.pop("page", None)
+
+    applied_filters = []
+    if form.is_valid():
+        for field_name, label in [
+            ("q", "جستجو"),
+            ("type", "نوع"),
+            ("genre", "ژانر"),
+            ("country", "کشور"),
+            ("year_from", "از سال"),
+            ("year_to", "تا سال"),
+            ("rating", "حداقل امتیاز"),
+            ("status", "وضعیت"),
+            ("director", "کارگردان"),
+            ("actor", "بازیگر"),
+            ("sort", "مرتب‌سازی"),
+        ]:
+            value = form.cleaned_data.get(field_name)
+            if value:
+                display_value = dict(form.fields[field_name].choices).get(value, value) if hasattr(form.fields[field_name], "choices") else value
+                applied_filters.append({"label": label, "value": display_value})
+
+    context = {
+        "search_form": form,
+        "page_obj": page_obj,
+        "results": page_obj.object_list,
+        "applied_filters": applied_filters,
+        "total_results": paginator.count,
+        "pagination_query": query_params.urlencode(),
+    }
+
+    return render(request, "pages/search.html", context)
 
 
 def media_detail(request, slug):

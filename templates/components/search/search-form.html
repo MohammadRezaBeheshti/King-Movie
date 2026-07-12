@@ -1,0 +1,30 @@
+<form method="get" action="{% url 'search' %}" class="rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20">
+    <div class="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+        <div>
+            <p class="text-xs font-black uppercase text-[#eab308]">Advanced Search</p>
+            <h2 class="mt-1 text-2xl font-black text-white">فیلتر حرفه‌ای رسانه‌ها</h2>
+        </div>
+        <div class="flex gap-3">
+            <button type="submit" class="rounded-lg bg-[#eab308] px-5 py-2 text-sm font-black text-black transition hover:bg-[#facc15]">
+                جستجو
+            </button>
+            <a href="{% url 'search' %}" class="rounded-lg border border-white/15 bg-white/10 px-5 py-2 text-sm font-bold text-white transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+                حذف فیلترها
+            </a>
+        </div>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {% include "components/search/search-filter.html" with label="جستجو" field=form.q %}
+        {% include "components/search/search-filter.html" with label="نوع رسانه" field=form.type %}
+        {% include "components/search/search-filter.html" with label="ژانر" field=form.genre %}
+        {% include "components/search/search-filter.html" with label="کشور" field=form.country %}
+        {% include "components/search/search-filter.html" with label="از سال" field=form.year_from %}
+        {% include "components/search/search-filter.html" with label="تا سال" field=form.year_to %}
+        {% include "components/search/search-filter.html" with label="حداقل IMDb" field=form.rating %}
+        {% include "components/search/search-filter.html" with label="وضعیت" field=form.status %}
+        {% include "components/search/search-filter.html" with label="کارگردان" field=form.director %}
+        {% include "components/search/search-filter.html" with label="بازیگر" field=form.actor %}
+        {% include "components/search/search-filter.html" with label="مرتب‌سازی" field=form.sort %}
+    </div>
+</form>

@@ -1,0 +1,43 @@
+{% extends "layouts/app.html" %}
+
+{% block title %}جستجو | کینگ مووی{% endblock %}
+
+{% block content %}
+    <div class="bg-[#080808] text-white">
+        <section class="border-b border-white/10 bg-black/40">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+                <p class="text-xs font-black uppercase text-[#eab308]">Search</p>
+                <h1 class="mt-2 text-3xl font-black text-white sm:text-5xl">جستجوی پیشرفته</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-white/60">
+                    فیلم، سریال، انیمه و انیمیشن را با فیلترهای دقیق پیدا کنید.
+                </p>
+            </div>
+        </section>
+
+        <div class="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+            {% include "components/search/search-form.html" with form=search_form %}
+
+            {% if applied_filters %}
+                <div class="flex flex-wrap gap-2">
+                    {% for filter in applied_filters %}
+                        <span class="rounded-full border border-[#eab308]/25 bg-[#eab308]/10 px-3 py-1 text-xs font-bold text-[#facc15]">
+                            {{ filter.label }}: {{ filter.value }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="flex items-center justify-between gap-4">
+                <h2 class="text-xl font-black text-white">نتایج جستجو</h2>
+                <span class="text-sm text-white/50">{{ total_results }} نتیجه</span>
+            </div>
+
+            {% if results %}
+                {% include "components/search/search-result-grid.html" with results=results %}
+                {% include "components/search/search-pagination.html" with page_obj=page_obj %}
+            {% else %}
+                {% include "components/search/search-empty.html" %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

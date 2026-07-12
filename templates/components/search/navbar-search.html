@@ -1,0 +1,108 @@
+<div class="relative hidden w-72 sm:block" data-navbar-search data-url="{% url 'search_suggestions' %}">
+    <label class="relative block">
+        <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--foreground)]/40">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="m21 21-4.3-4.3"></path>
+                <circle cx="11" cy="11" r="7"></circle>
+            </svg>
+        </span>
+        <input
+            type="search"
+            name="navbar_q"
+            autocomplete="off"
+            placeholder="جستجوی سریع..."
+            class="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] py-2 pr-9 pl-3 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--foreground)]/40 focus:border-[#eab308]/70 focus:ring-2 focus:ring-[#eab308]/20"
+            data-navbar-search-input
+        >
+    </label>
+
+    <div class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-lg border border-white/10 bg-[#101010] shadow-2xl shadow-black/30" data-navbar-search-panel>
+        <div class="hidden px-4 py-3 text-sm text-white/55" data-navbar-search-loading>در حال جستجو...</div>
+        <div class="hidden px-4 py-3 text-sm text-white/55" data-navbar-search-empty>نتیجه‌ای پیدا نشد.</div>
+        <div class="max-h-96 overflow-y-auto" data-navbar-search-results></div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll("[data-navbar-search]").forEach((root) => {
+    const input = root.querySelector("[data-navbar-search-input]");
+    const panel = root.querySelector("[data-navbar-search-panel]");
+    const results = root.querySelector("[data-navbar-search-results]");
+    const loading = root.querySelector("[data-navbar-search-loading]");
+    const empty = root.querySelector("[data-navbar-search-empty]");
+    const endpoint = root.dataset.url;
+    let timer = null;
+    let controller = null;
+
+    const showPanel = () => panel.classList.remove("hidden");
+    const hidePanel = () => panel.classList.add("hidden");
+    const clearStates = () => {
+        loading.classList.add("hidden");
+        empty.classList.add("hidden");
+        results.innerHTML = "";
+    };
+
+    input.addEventListener("input", () => {
+        const query = input.value.trim();
+        window.clearTimeout(timer);
+
+        if (query.length < 2) {
+            clearStates();
+            hidePanel();
+            return;
+        }
+
+        timer = window.setTimeout(async () => {
+            if (controller) {
+                controller.abort();
+            }
+            controller = new AbortController();
+            clearStates();
+            showPanel();
+            loading.classList.remove("hidden");
+
+            try {
+                const response = await fetch(`${endpoint}?q=${encodeURIComponent(query)}`, {
+                    headers: {"X-Requested-With": "XMLHttpRequest"},
+                    signal: controller.signal,
+                });
+                const data = await response.json();
+                loading.classList.add("hidden");
+
+                if (!data.results.length) {
+                    empty.classList.remove("hidden");
+                    return;
+                }
+
+                results.innerHTML = data.results.map((item) => `
+                    <a href="${item.url}" class="flex gap-3 border-b border-white/10 p-3 transition hover:bg-white/10">
+                        <div class="h-16 w-11 shrink-0 overflow-hidden rounded-md bg-white/10">
+                            ${item.poster ? `<img src="${item.poster}" alt="${item.title}" class="h-full w-full object-cover">` : ""}
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="truncate text-sm font-black text-white">${item.title}</div>
+                            <div class="mt-1 truncate text-xs text-white/45">${item.original_title || ""}</div>
+                            <div class="mt-2 flex gap-2 text-xs text-white/55">
+                                <span>${item.year || "نامشخص"}</span>
+                                <span>${item.type || ""}</span>
+                                ${item.rating ? `<span class="text-[#eab308]">IMDb ${item.rating}</span>` : ""}
+                            </div>
+                        </div>
+                    </a>
+                `).join("");
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    loading.classList.add("hidden");
+                    empty.classList.remove("hidden");
+                }
+            }
+        }, 300);
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!root.contains(event.target)) {
+            hidePanel();
+        }
+    });
+});
+</script>

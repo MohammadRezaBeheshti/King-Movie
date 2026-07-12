@@ -5,6 +5,12 @@
 {% block content %}
     {% include "components/media/hero.html" with item=hero_item %}
 
+    <div class="bg-[#080808] px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+            {% include "components/search/search-form.html" with form=search_form %}
+        </div>
+    </div>
+
     <div class="space-y-10 py-10 sm:space-y-12 sm:py-12">
         {% include "components/media/media-row.html" with title="جدیدترین فیلم‌ها" eyebrow="Movies" items=latest_movies %}
         {% include "components/media/media-row.html" with title="جدیدترین سریال‌ها" eyebrow="Series" items=latest_series %}
