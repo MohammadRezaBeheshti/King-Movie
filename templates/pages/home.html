@@ -5,7 +5,7 @@
 {% block content %}
     {% include "components/media/hero.html" with item=hero_item %}
 
-    <div class="bg-[#080808] px-4 py-8 sm:px-6 lg:px-8">
+    <div class="bg-[var(--background)] px-4 py-8 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
             {% include "components/search/search-form.html" with form=search_form %}
         </div>

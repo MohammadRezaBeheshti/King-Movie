@@ -3,14 +3,14 @@
 {% block title %}{{ media.persian_title|default:media.title }} | کینگ مووی{% endblock %}
 
 {% block content %}
-    <div class="bg-[#080808] text-white">
+    <div class="bg-[var(--background)] text-[var(--foreground)]">
         {% include "components/media/detail/hero.html" %}
 
         <div class="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">
             {% if messages %}
                 <div class="space-y-3">
                     {% for message in messages %}
-                        <div class="rounded-lg border border-[#eab308]/25 bg-[#eab308]/10 px-4 py-3 text-sm font-bold text-[#facc15]">
+                        <div class="rounded-lg border border-[var(--primary)]/25 bg-[var(--primary)]/10 px-4 py-3 text-sm font-bold text-[var(--primary)]">
                             {{ message }}
                         </div>
                     {% endfor %}

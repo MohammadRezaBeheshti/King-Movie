@@ -1,7 +1,7 @@
-<section class="{% if compact %}flex flex-wrap gap-3{% else %}rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20{% endif %}">
+<section class="{% if compact %}flex flex-wrap gap-3{% else %}rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl{% endif %}">
     {% if not compact %}
-        <h2 class="text-lg font-black text-white">عملیات کاربر</h2>
-        <p class="mt-2 text-sm leading-7 text-white/55">رسانه را ذخیره کن، به آن امتیاز بده یا بعدا ادامه بده.</p>
+        <h2 class="text-lg font-black text-[var(--foreground)]">عملیات کاربر</h2>
+        <p class="mt-2 text-sm leading-7 text-[var(--foreground)]/55">رسانه را ذخیره کن، به آن امتیاز بده یا بعدا ادامه بده.</p>
         <div class="mt-5 grid gap-3">
     {% endif %}
 
@@ -10,7 +10,7 @@
 
     {% if not compact %}
         </div>
-        <div class="mt-5 border-t border-white/10 pt-5">
+        <div class="mt-5 border-t border-[var(--border)] pt-5">
             {% include "components/interactions/rating-form.html" %}
         </div>
     {% endif %}

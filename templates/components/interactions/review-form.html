@@ -1,14 +1,14 @@
 {% if user.is_authenticated %}
-    <form method="post" action="{% url 'interactions:review' media.slug %}" class="rounded-lg border border-white/10 bg-black/25 p-4">
+    <form method="post" action="{% url 'interactions:review' media.slug %}" class="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4">
         {% csrf_token %}
-        <label for="{{ review_form.content.id_for_label }}" class="block text-sm font-black text-white">
+        <label for="{{ review_form.content.id_for_label }}" class="block text-sm font-black text-[var(--foreground)]">
             {% if user_review %}ویرایش نظر شما{% else %}ثبت نظر شما{% endif %}
         </label>
         <div class="mt-3">
             {{ review_form.content }}
         </div>
         <div class="mt-3 flex flex-wrap gap-3">
-            <button type="submit" name="action" value="save" class="rounded-lg bg-[#eab308] px-4 py-2 text-sm font-black text-black transition hover:bg-[#facc15]">
+            <button type="submit" name="action" value="save" class="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-black text-[var(--primary-foreground)] transition hover:bg-[var(--primary-hover)]">
                 {% if user_review %}ذخیره تغییرات{% else %}ثبت نظر{% endif %}
             </button>
             {% if user_review %}
@@ -19,7 +19,7 @@
         </div>
     </form>
 {% else %}
-    <div class="rounded-lg border border-dashed border-white/15 bg-black/25 p-5 text-sm text-white/55">
+    <div class="rounded-lg border border-dashed border-[var(--border)] bg-[var(--card)] p-5 text-sm text-[var(--foreground)]/55">
         برای ثبت امتیاز یا نظر باید وارد حساب کاربری شوید.
     </div>
 {% endif %}

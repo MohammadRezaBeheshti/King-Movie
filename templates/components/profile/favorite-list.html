@@ -1,0 +1,14 @@
+<section>
+    {% include "components/ui/section-title.html" with title="علاقه مندی های من" eyebrow="Favorites" %}
+    <div class="mt-4 flex snap-x scroll-px-4 gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {% for favorite in favorites %}
+            <div class="snap-start">
+                {% include "components/media/media-card.html" with media=favorite.media %}
+            </div>
+        {% empty %}
+            <div class="w-full rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
+                هنوز موردی به علاقه مندی ها اضافه نکرده اید.
+            </div>
+        {% endfor %}
+    </div>
+</section>

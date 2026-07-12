@@ -1,30 +1,30 @@
-<section class="rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20">
-    <h2 class="text-lg font-black text-white">اطلاعات</h2>
+<section class="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl">
+    <h2 class="text-lg font-black text-[var(--foreground)]">اطلاعات</h2>
 
     <dl class="mt-5 space-y-4 text-sm">
-        <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <dt class="text-white/50">نوع</dt>
-            <dd class="font-bold text-white">{{ media.get_media_type_display|default:"نامشخص" }}</dd>
+        <div class="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-3">
+            <dt class="text-[var(--foreground)]/50">نوع</dt>
+            <dd class="font-bold text-[var(--foreground)]">{{ media.get_media_type_display|default:"نامشخص" }}</dd>
         </div>
-        <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <dt class="text-white/50">وضعیت</dt>
-            <dd class="font-bold text-white">{{ media.get_status_display|default:"نامشخص" }}</dd>
+        <div class="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-3">
+            <dt class="text-[var(--foreground)]/50">وضعیت</dt>
+            <dd class="font-bold text-[var(--foreground)]">{{ media.get_status_display|default:"نامشخص" }}</dd>
         </div>
-        <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <dt class="text-white/50">سال انتشار</dt>
-            <dd class="font-bold text-white">{{ media.release_date|date:"Y"|default:"نامشخص" }}</dd>
+        <div class="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-3">
+            <dt class="text-[var(--foreground)]/50">سال انتشار</dt>
+            <dd class="font-bold text-[var(--foreground)]">{{ media.release_date|date:"Y"|default:"نامشخص" }}</dd>
         </div>
-        <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <dt class="text-white/50">مدت زمان</dt>
-            <dd class="font-bold text-white">{% if media.runtime %}{{ media.runtime }} دقیقه{% else %}نامشخص{% endif %}</dd>
+        <div class="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-3">
+            <dt class="text-[var(--foreground)]/50">مدت زمان</dt>
+            <dd class="font-bold text-[var(--foreground)]">{% if media.runtime %}{{ media.runtime }} دقیقه{% else %}نامشخص{% endif %}</dd>
         </div>
-        <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <dt class="text-white/50">امتیاز IMDb</dt>
-            <dd class="font-bold text-[#eab308]">{{ media.imdb_rating|default:"نامشخص" }}</dd>
+        <div class="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-3">
+            <dt class="text-[var(--foreground)]/50">امتیاز IMDb</dt>
+            <dd class="font-bold text-[var(--primary)]">{{ media.imdb_rating|default:"نامشخص" }}</dd>
         </div>
         <div class="flex items-start justify-between gap-4">
-            <dt class="text-white/50">کشور</dt>
-            <dd class="text-left font-bold text-white">
+            <dt class="text-[var(--foreground)]/50">کشور</dt>
+            <dd class="text-left font-bold text-[var(--foreground)]">
                 {% for country in media.countries.all %}
                     {{ country.name }}{% if not forloop.last %}، {% endif %}
                 {% empty %}

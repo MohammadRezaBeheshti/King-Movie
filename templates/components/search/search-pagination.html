@@ -1,17 +1,17 @@
 {% if page_obj.has_other_pages %}
     <nav class="flex flex-wrap items-center justify-center gap-2 pt-4" aria-label="صفحه‌بندی نتایج">
         {% if page_obj.has_previous %}
-            <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="rounded-lg border border-white/15 bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+            <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-bold text-[var(--foreground)] transition hover:border-[var(--primary)]/60 hover:text-[var(--primary)]">
                 قبلی
             </a>
         {% endif %}
 
-        <span class="rounded-lg bg-[#eab308] px-4 py-2 text-sm font-black text-black">
+        <span class="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-black text-[var(--primary-foreground)]">
             صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.next_page_number }}" class="rounded-lg border border-white/15 bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+            <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.next_page_number }}" class="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-bold text-[var(--foreground)] transition hover:border-[var(--primary)]/60 hover:text-[var(--primary)]">
                 بعدی
             </a>
         {% endif %}

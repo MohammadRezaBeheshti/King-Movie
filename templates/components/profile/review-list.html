@@ -1,0 +1,28 @@
+<section>
+    {% include "components/ui/section-title.html" with title="نقد و نظرهای من" eyebrow="Reviews" %}
+    <div class="mt-4 grid gap-4 lg:grid-cols-2">
+        {% for review in reviews %}
+            <article class="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <h3 class="truncate text-base font-black text-[var(--foreground)]">{{ review.media.persian_title|default:review.media.title }}</h3>
+                        <time class="mt-1 block text-xs text-[var(--foreground)]/50">{{ review.created_at|date:"Y/m/d" }}</time>
+                    </div>
+                    {% if review.is_approved %}
+                        <span class="shrink-0 rounded-full border border-[var(--primary)]/25 bg-[var(--primary)]/10 px-2.5 py-1 text-xs font-bold text-[var(--primary)]">تایید شده</span>
+                    {% else %}
+                        <span class="shrink-0 rounded-full border border-[var(--border)] bg-[var(--muted)] px-2.5 py-1 text-xs font-bold text-[var(--foreground)]/60">در انتظار</span>
+                    {% endif %}
+                </div>
+                <p class="mt-3 line-clamp-3 text-sm leading-7 text-[var(--foreground)]/70">{{ review.content }}</p>
+                <a href="{% url 'media_detail' review.media.slug %}" class="mt-4 inline-flex text-sm font-bold text-[var(--primary)] transition hover:text-[var(--primary-hover)]">
+                    مشاهده رسانه
+                </a>
+            </article>
+        {% empty %}
+            <div class="rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
+                هنوز نقدی ثبت نکرده اید.
+            </div>
+        {% endfor %}
+    </div>
+</section>

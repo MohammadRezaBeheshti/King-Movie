@@ -1,14 +1,14 @@
-<form method="get" action="{% url 'search' %}" class="rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20">
+<form method="get" action="{% url 'search' %}" class="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl">
     <div class="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
-            <p class="text-xs font-black uppercase text-[#eab308]">Advanced Search</p>
-            <h2 class="mt-1 text-2xl font-black text-white">فیلتر حرفه‌ای رسانه‌ها</h2>
+            <p class="text-xs font-black uppercase text-[var(--primary)]">Advanced Search</p>
+            <h2 class="mt-1 text-2xl font-black text-[var(--foreground)]">فیلتر حرفه‌ای رسانه‌ها</h2>
         </div>
         <div class="flex gap-3">
-            <button type="submit" class="rounded-lg bg-[#eab308] px-5 py-2 text-sm font-black text-black transition hover:bg-[#facc15]">
+            <button type="submit" class="rounded-lg bg-[var(--primary)] px-5 py-2 text-sm font-black text-[var(--primary-foreground)] transition hover:bg-[var(--primary-hover)]">
                 جستجو
             </button>
-            <a href="{% url 'search' %}" class="rounded-lg border border-white/15 bg-white/10 px-5 py-2 text-sm font-bold text-white transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+            <a href="{% url 'search' %}" class="rounded-lg border border-[var(--border)] bg-[var(--card)] px-5 py-2 text-sm font-bold text-[var(--foreground)] transition hover:border-[var(--primary)]/60 hover:text-[var(--primary)]">
                 حذف فیلترها
             </a>
         </div>

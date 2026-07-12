@@ -1,4 +1,4 @@
-<span class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold {% if variant == 'primary' %}bg-[#eab308] text-black{% else %}border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)]/75{% endif %}">
-    {% if prefix %}<span class="text-[#eab308]">{{ prefix }}</span>{% endif %}
+<span class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold {% if variant == 'primary' %}bg-[var(--primary)] text-[var(--primary-foreground)]{% else %}border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)]/75{% endif %}">
+    {% if prefix %}<span class="text-[var(--primary)]">{{ prefix }}</span>{% endif %}
     <span>{{ label|default:"نامشخص" }}</span>
 </span>

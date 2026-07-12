@@ -1,16 +1,16 @@
-<section class="rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20">
-    <h2 class="text-2xl font-black text-white">درباره اثر</h2>
+<section class="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl">
+    <h2 class="text-2xl font-black text-[var(--foreground)]">درباره اثر</h2>
 
     {% if media.overview %}
-        <p class="mt-4 text-sm leading-8 text-white/72 sm:text-base">{{ media.overview }}</p>
+        <p class="mt-4 text-sm leading-8 text-[var(--foreground)]/72 sm:text-base">{{ media.overview }}</p>
     {% else %}
-        <p class="mt-4 text-sm leading-8 text-white/50">توضیحی برای این عنوان ثبت نشده است.</p>
+        <p class="mt-4 text-sm leading-8 text-[var(--foreground)]/50">توضیحی برای این عنوان ثبت نشده است.</p>
     {% endif %}
 
     <div class="mt-6 grid gap-4 sm:grid-cols-2">
-        <div class="rounded-lg bg-black/25 p-4">
-            <p class="text-xs font-bold text-white/45">کارگردان</p>
-            <p class="mt-2 text-sm font-semibold text-white">
+        <div class="rounded-lg bg-[var(--muted)] p-4">
+            <p class="text-xs font-bold text-[var(--foreground)]/45">کارگردان</p>
+            <p class="mt-2 text-sm font-semibold text-[var(--foreground)]">
                 {% for director in media.directors.all %}
                     {{ director.full_name }}{% if not forloop.last %}، {% endif %}
                 {% empty %}
@@ -18,9 +18,9 @@
                 {% endfor %}
             </p>
         </div>
-        <div class="rounded-lg bg-black/25 p-4">
-            <p class="text-xs font-bold text-white/45">بازیگران</p>
-            <p class="mt-2 line-clamp-2 text-sm font-semibold text-white">
+        <div class="rounded-lg bg-[var(--muted)] p-4">
+            <p class="text-xs font-bold text-[var(--foreground)]/45">بازیگران</p>
+            <p class="mt-2 line-clamp-2 text-sm font-semibold text-[var(--foreground)]">
                 {% for actor in media.actors.all %}
                     {{ actor.full_name }}{% if not forloop.last %}، {% endif %}
                 {% empty %}

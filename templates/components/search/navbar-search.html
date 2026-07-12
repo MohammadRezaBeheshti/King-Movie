@@ -11,14 +11,14 @@
             name="navbar_q"
             autocomplete="off"
             placeholder="جستجوی سریع..."
-            class="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] py-2 pr-9 pl-3 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--foreground)]/40 focus:border-[#eab308]/70 focus:ring-2 focus:ring-[#eab308]/20"
+            class="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] py-2 pr-9 pl-3 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--foreground)]/40 focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20"
             data-navbar-search-input
         >
     </label>
 
-    <div class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-lg border border-white/10 bg-[#101010] shadow-2xl shadow-black/30" data-navbar-search-panel>
-        <div class="hidden px-4 py-3 text-sm text-white/55" data-navbar-search-loading>در حال جستجو...</div>
-        <div class="hidden px-4 py-3 text-sm text-white/55" data-navbar-search-empty>نتیجه‌ای پیدا نشد.</div>
+    <div class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)] shadow-2xl" data-navbar-search-panel>
+        <div class="hidden px-4 py-3 text-sm text-[var(--foreground)]/55" data-navbar-search-loading>در حال جستجو...</div>
+        <div class="hidden px-4 py-3 text-sm text-[var(--foreground)]/55" data-navbar-search-empty>نتیجه‌ای پیدا نشد.</div>
         <div class="max-h-96 overflow-y-auto" data-navbar-search-results></div>
     </div>
 </div>
@@ -75,17 +75,17 @@ document.querySelectorAll("[data-navbar-search]").forEach((root) => {
                 }
 
                 results.innerHTML = data.results.map((item) => `
-                    <a href="${item.url}" class="flex gap-3 border-b border-white/10 p-3 transition hover:bg-white/10">
-                        <div class="h-16 w-11 shrink-0 overflow-hidden rounded-md bg-white/10">
+                    <a href="${item.url}" class="flex gap-3 border-b border-[var(--border)] p-3 transition hover:bg-[var(--muted)]">
+                        <div class="h-16 w-11 shrink-0 overflow-hidden rounded-md bg-[var(--muted)]">
                             ${item.poster ? `<img src="${item.poster}" alt="${item.title}" class="h-full w-full object-cover">` : ""}
                         </div>
                         <div class="min-w-0 flex-1">
-                            <div class="truncate text-sm font-black text-white">${item.title}</div>
-                            <div class="mt-1 truncate text-xs text-white/45">${item.original_title || ""}</div>
-                            <div class="mt-2 flex gap-2 text-xs text-white/55">
+                            <div class="truncate text-sm font-black text-[var(--foreground)]">${item.title}</div>
+                            <div class="mt-1 truncate text-xs text-[var(--foreground)]/45">${item.original_title || ""}</div>
+                            <div class="mt-2 flex gap-2 text-xs text-[var(--foreground)]/55">
                                 <span>${item.year || "نامشخص"}</span>
                                 <span>${item.type || ""}</span>
-                                ${item.rating ? `<span class="text-[#eab308]">IMDb ${item.rating}</span>` : ""}
+                                ${item.rating ? `<span class="text-[var(--primary)]">IMDb ${item.rating}</span>` : ""}
                             </div>
                         </div>
                     </a>

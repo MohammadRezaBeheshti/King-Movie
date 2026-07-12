@@ -1,6 +1,6 @@
 <form method="post" action="{% url 'interactions:favorite' media.slug %}">
     {% csrf_token %}
-    <button type="submit" class="inline-flex w-full items-center justify-center rounded-lg {% if is_favorite %}bg-[#eab308] text-black hover:bg-[#facc15]{% else %}border border-white/15 bg-white/10 text-white hover:border-[#eab308]/60 hover:text-[#eab308]{% endif %} px-4 py-2.5 text-sm font-black transition">
+    <button type="submit" class="inline-flex w-full items-center justify-center rounded-lg {% if is_favorite %}bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)]{% else %}border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--primary)]/60 hover:text-[var(--primary)]{% endif %} px-4 py-2.5 text-sm font-black transition">
         {% if is_favorite %}
             حذف از علاقه‌مندی‌ها
         {% else %}

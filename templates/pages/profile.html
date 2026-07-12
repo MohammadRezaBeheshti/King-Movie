@@ -1,0 +1,14 @@
+{% extends "layouts/app.html" %}
+
+{% block title %}پروفایل | King Movie{% endblock %}
+
+{% block content %}
+    {% include "components/profile/profile-header.html" %}
+
+    <div class="mx-auto max-w-7xl space-y-12 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        {% include "components/profile/favorite-list.html" %}
+        {% include "components/profile/watchlist-list.html" %}
+        {% include "components/profile/rating-list.html" %}
+        {% include "components/profile/review-list.html" %}
+    </div>
+{% endblock %}

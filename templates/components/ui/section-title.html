@@ -1,14 +1,14 @@
 <div class="flex items-end justify-between gap-4">
     <div>
         {% if eyebrow %}
-            <p class="text-xs font-black uppercase text-[#eab308]">{{ eyebrow }}</p>
+            <p class="text-xs font-black uppercase text-[var(--primary)]">{{ eyebrow }}</p>
         {% endif %}
         <h2 class="mt-1 text-xl font-black text-[var(--foreground)] sm:text-2xl">
             {{ title|default:"بدون عنوان" }}
         </h2>
     </div>
     {% if href %}
-        <a href="{{ href }}" class="text-sm font-bold text-[var(--foreground)]/60 transition hover:text-[#eab308]">
+        <a href="{{ href }}" class="text-sm font-bold text-[var(--foreground)]/60 transition hover:text-[var(--primary)]">
             مشاهده همه
         </a>
     {% endif %}

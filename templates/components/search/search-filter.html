@@ -1,7 +1,7 @@
 <label class="block">
-    <span class="mb-2 block text-xs font-bold text-white/55">{{ label }}</span>
+    <span class="mb-2 block text-xs font-bold text-[var(--foreground)]/55">{{ label }}</span>
     {{ field }}
     {% if field.errors %}
-        <span class="mt-1 block text-xs text-red-300">{{ field.errors|first }}</span>
+        <span class="mt-1 block text-xs text-[var(--primary)]">{{ field.errors|first }}</span>
     {% endif %}
 </label>

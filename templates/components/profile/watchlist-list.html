@@ -1,0 +1,14 @@
+<section>
+    {% include "components/ui/section-title.html" with title="لیست تماشای من" eyebrow="Watchlist" %}
+    <div class="mt-4 flex snap-x scroll-px-4 gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {% for watchlist_item in watchlist_items %}
+            <div class="snap-start">
+                {% include "components/media/media-card.html" with media=watchlist_item.media %}
+            </div>
+        {% empty %}
+            <div class="w-full rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
+                هنوز عنوانی برای تماشای بعدی ذخیره نکرده اید.
+            </div>
+        {% endfor %}
+    </div>
+</section>

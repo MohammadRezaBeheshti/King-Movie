@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 
+from accounts.views import profile_view
 from media_library.views import home, media_detail, search, search_suggestions
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path("", include("interactions.urls")),
     path("search/", search, name="search"),
     path("search/suggestions/", search_suggestions, name="search_suggestions"),
+    path("profile/", profile_view, name="profile"),
     path("media/<slug:slug>/", media_detail, name="media_detail"),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
