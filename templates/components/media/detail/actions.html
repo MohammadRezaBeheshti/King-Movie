@@ -1,0 +1,18 @@
+<section class="{% if compact %}flex flex-wrap gap-3{% else %}rounded-lg border border-white/10 bg-white/[0.04] p-5 shadow-xl shadow-black/20{% endif %}">
+    {% if not compact %}
+        <h2 class="text-lg font-black text-white">عملیات کاربر</h2>
+        <p class="mt-2 text-sm leading-7 text-white/55">فعلا فقط رابط کاربری است؛ اتصال به بک‌اند در فاز بعدی انجام می‌شود.</p>
+        <div class="mt-5 grid gap-3">
+    {% endif %}
+
+    <button type="button" class="inline-flex items-center justify-center rounded-lg bg-[#eab308] px-4 py-2.5 text-sm font-black text-black transition hover:bg-[#facc15]">
+        افزودن به علاقه‌مندی‌ها
+    </button>
+    <button type="button" class="inline-flex items-center justify-center rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+        افزودن به لیست تماشا
+    </button>
+
+    {% if not compact %}
+        </div>
+    {% endif %}
+</section>

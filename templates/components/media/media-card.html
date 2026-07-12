@@ -1,5 +1,5 @@
 <article class="group w-40 shrink-0 overflow-hidden rounded-lg border border-(--border) bg-(--card) shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#eab308]/60 hover:shadow-xl hover:shadow-black/10 sm:w-44 lg:w-52">
-    <a href="#" class="block focus:outline-none focus:ring-2 focus:ring-[#eab308]/60">
+    <a href="{% url 'media_detail' media.slug %}" class="block focus:outline-none focus:ring-2 focus:ring-[#eab308]/60">
         <div class="relative overflow-hidden bg-(--muted)" style="aspect-ratio: 2 / 3;">
             {% if media.poster %}
                 <img

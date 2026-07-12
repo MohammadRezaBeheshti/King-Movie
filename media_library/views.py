@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404, render
 
-from media_library.models import Media
+from media_library.models import Episode, Media, Season
 
 
 def home(request):
@@ -37,3 +38,35 @@ def home(request):
     }
 
     return render(request, "pages/home.html", context)
+
+
+def media_detail(request, slug):
+    seasons_queryset = Season.objects.prefetch_related(
+        Prefetch(
+            "episodes",
+            queryset=Episode.objects.order_by("episode_number"),
+        )
+    ).order_by("season_number")
+
+    media = get_object_or_404(
+        Media.objects
+        .select_related()
+        .prefetch_related(
+            "genres",
+            "actors",
+            "directors",
+            "countries",
+            Prefetch("seasons", queryset=seasons_queryset),
+            "reviews__user",
+        ),
+        slug=slug,
+    )
+
+    context = {
+        "media": media,
+        "seasons": media.seasons.all(),
+        "reviews": media.reviews.all()[:6],
+        "is_series": media.media_type == "series",
+    }
+
+    return render(request, "pages/media-detail.html", context)

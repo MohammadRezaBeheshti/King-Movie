@@ -1,0 +1,68 @@
+<section class="relative isolate overflow-hidden bg-black">
+    <div class="absolute inset-0">
+        {% if media.backdrop %}
+            <img src="{{ media.backdrop.url }}" alt="{{ media.persian_title|default:media.title }}" class="h-full w-full object-cover">
+        {% elif media.poster %}
+            <img src="{{ media.poster.url }}" alt="{{ media.persian_title|default:media.title }}" class="h-full w-full object-cover">
+        {% endif %}
+    </div>
+
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.96)_0%,rgba(0,0,0,.82)_42%,rgba(0,0,0,.52)_72%,rgba(0,0,0,.34)_100%)]"></div>
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#080808] to-transparent"></div>
+
+    <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid min-h-[560px] items-end gap-8 md:grid-cols-[280px_minmax(0,1fr)] lg:min-h-[640px]">
+            <div class="hidden md:block">
+                <div class="overflow-hidden rounded-lg border border-white/10 bg-white/5 shadow-2xl shadow-black/50">
+                    {% if media.poster %}
+                        <img src="{{ media.poster.url }}" alt="{{ media.persian_title|default:media.title }}" class="aspect-[2/3] w-full object-cover">
+                    {% else %}
+                        <div class="flex aspect-[2/3] items-center justify-center px-6 text-center text-sm text-white/55">
+                            پوستر موجود نیست
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="max-w-3xl pb-2">
+                <div class="mb-4 flex flex-wrap items-center gap-2">
+                    {% if media.imdb_rating %}
+                        <span class="rounded-md bg-[#eab308] px-2.5 py-1 text-xs font-black text-black">IMDb {{ media.imdb_rating }}</span>
+                    {% endif %}
+                    {% if media.release_date %}
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-bold text-white/85">{{ media.release_date|date:"Y" }}</span>
+                    {% endif %}
+                    {% if media.media_type %}
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-bold text-white/85">{{ media.get_media_type_display }}</span>
+                    {% endif %}
+                </div>
+
+                <h1 class="text-4xl font-black leading-tight text-white sm:text-6xl">
+                    {{ media.persian_title|default:media.title }}
+                </h1>
+
+                {% if media.original_title %}
+                    <p class="mt-3 text-base font-semibold text-[#eab308]">{{ media.original_title }}</p>
+                {% endif %}
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                    {% for genre in media.genres.all %}
+                        <span class="rounded-full border border-[#eab308]/35 bg-[#eab308]/10 px-3 py-1 text-xs font-bold text-[#facc15]">{{ genre.name }}</span>
+                    {% empty %}
+                        <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/55">ژانر ثبت نشده</span>
+                    {% endfor %}
+                </div>
+
+                {% if media.overview %}
+                    <p class="mt-6 max-w-2xl text-sm leading-8 text-white/76 sm:text-base">
+                        {{ media.overview }}
+                    </p>
+                {% endif %}
+
+                <div class="mt-8">
+                    {% include "components/media/detail/actions.html" with compact=True %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -20,10 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 
-from media_library.views import home
+from media_library.views import home, media_detail
 
 urlpatterns = [
     path("", home, name="home"),
+    path("media/<slug:slug>/", media_detail, name="media_detail"),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
 ]
