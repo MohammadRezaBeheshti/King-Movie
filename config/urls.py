@@ -24,6 +24,7 @@ from media_library.views import home, media_detail
 
 urlpatterns = [
     path("", home, name="home"),
+    path("", include("interactions.urls")),
     path("media/<slug:slug>/", media_detail, name="media_detail"),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),

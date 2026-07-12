@@ -1,0 +1,17 @@
+<form method="post" action="{% url 'interactions:rating' media.slug %}">
+    {% csrf_token %}
+    <label for="{{ rating_form.score.id_for_label }}" class="block text-sm font-black text-white">
+        امتیاز شما
+    </label>
+    <div class="mt-3 flex items-center gap-3">
+        <div class="flex-1">
+            {{ rating_form.score }}
+        </div>
+        <button type="submit" class="rounded-lg bg-[#eab308] px-4 py-2 text-sm font-black text-black transition hover:bg-[#facc15]">
+            ثبت
+        </button>
+    </div>
+    <p class="mt-2 text-xs text-white/45">
+        امتیاز از ۱ تا ۱۰{% if user_rating %}، امتیاز فعلی شما: {{ user_rating.score }}{% endif %}
+    </p>
+</form>

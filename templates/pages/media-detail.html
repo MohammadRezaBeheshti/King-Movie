@@ -7,6 +7,16 @@
         {% include "components/media/detail/hero.html" %}
 
         <div class="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">
+            {% if messages %}
+                <div class="space-y-3">
+                    {% for message in messages %}
+                        <div class="rounded-lg border border-[#eab308]/25 bg-[#eab308]/10 px-4 py-3 text-sm font-bold text-[#facc15]">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
                 <div class="space-y-10">
                     {% include "components/media/detail/info.html" %}
