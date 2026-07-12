@@ -9,10 +9,10 @@ __pycache__/
 
 # Django
 db.sqlite3
-media/
+/media/
 
-# Static build
-staticfiles/
+# Collected static files
+/staticfiles/
 
 # VS Code
 .vscode/

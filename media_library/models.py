@@ -74,6 +74,11 @@ class Media(models.Model):
         choices=MediaType.choices,
     )
 
+    is_featured = models.BooleanField(
+    "پیشنهاد ویژه",
+    default=False,
+)
+
     status = models.CharField(
         "وضعیت",
         max_length=20,
@@ -143,6 +148,9 @@ class Media(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.persian_title or self.title
+
 class Season(models.Model):
     media = models.ForeignKey(
         Media,
@@ -160,7 +168,10 @@ class Season(models.Model):
         unique_together = ["media", "season_number"]
 
     def __str__(self):
-        return f"{self.media.title} - فصل {self.season_number}"
+        return (
+            f"{self.media.persian_title} "
+            f"- فصل {self.season_number}"
+    )
     
 class Episode(models.Model):
     season = models.ForeignKey(
@@ -193,4 +204,8 @@ class Episode(models.Model):
         unique_together = ["season", "episode_number"]
 
     def __str__(self):
-        return f"قسمت {self.episode_number}"
+         return (
+            f"{self.season.media.persian_title} | "
+            f"فصل {self.season.season_number} | "
+            f"قسمت {self.episode_number}"
+    )

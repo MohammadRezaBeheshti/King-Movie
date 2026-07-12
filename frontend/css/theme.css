@@ -9,7 +9,10 @@
   --background: #f8fafc;
   --foreground: #111827;
 
-  --primary: #2563eb;
+  --surface: #ffffff;
+  --card: #ffffff;
+
+  --primary: #eab308;
   --primary-foreground: #ffffff;
 
   --muted: #f1f5f9;
@@ -20,8 +23,11 @@
   --background: #0f172a;
   --foreground: #f8fafc;
 
-  --primary: #3b82f6;
+  --primary: #eab308;
   --primary-foreground: #ffffff;
+
+  --surface: #1e293b;
+  --card: #111827;
 
   --muted: #1e293b;
   --border: #334155;

@@ -1,0 +1,17 @@
+<section>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {% include "components/ui/section-title.html" with title=title eyebrow=eyebrow %}
+    </div>
+
+    <div class="mx-auto mt-4 flex max-w-7xl snap-x scroll-px-4 gap-4 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {% for media in items %}
+            <div class="snap-start">
+                {% include "components/media/media-card.html" %}
+            </div>
+        {% empty %}
+            <div class="w-full shrink-0 rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
+                موردی برای نمایش در «{{ title }}» وجود ندارد.
+            </div>
+        {% endfor %}
+    </div>
+</section>

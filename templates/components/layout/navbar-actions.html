@@ -1,0 +1,16 @@
+<div class="flex shrink-0 items-center gap-2">
+    <form action="#" method="get" class="hidden sm:block">
+        {% include "components/ui/input.html" with name="q" placeholder="جستجو..." %}
+    </form>
+
+    {% if user.is_authenticated %}
+        <a href="#" class="max-w-28 truncate rounded-full border border-[var(--border)] px-3 py-2 text-sm text-[var(--foreground)]/80 transition hover:border-[#eab308]/60 hover:text-[#eab308]">
+            {{ user.username }}
+        </a>
+    {% else %}
+        {% url 'accounts:login' as login_url %}
+        {% url 'accounts:register' as register_url %}
+        {% include "components/ui/button.html" with href=login_url label="ورود" variant="ghost" %}
+        {% include "components/ui/button.html" with href=register_url label="ثبت‌نام" variant="primary" %}
+    {% endif %}
+</div>

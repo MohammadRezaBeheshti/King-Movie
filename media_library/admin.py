@@ -10,10 +10,44 @@ from .models import (
     Season,
 )
 
+
+@admin.register(Media)
+class MediaAdmin(admin.ModelAdmin):
+    list_display = (
+        "persian_title",
+        "media_type",
+        "status",
+        "imdb_rating",
+        "release_date",
+    )
+
+    search_fields = (
+        "persian_title",
+        "title",
+        "original_title",
+        "slug",
+    )
+
+    list_filter = (
+        "media_type",
+        "status",
+        "genres",
+        "release_date",
+    )
+
+    ordering = ("-release_date",)
+
+    filter_horizontal = (
+        "genres",
+        "actors",
+        "directors",
+        "countries",
+    )
+
+
 admin.site.register(Genre)
 admin.site.register(Country)
 admin.site.register(Actor)
 admin.site.register(Director)
-admin.site.register(Media)
 admin.site.register(Season)
 admin.site.register(Episode)

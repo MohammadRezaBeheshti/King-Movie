@@ -1,0 +1,40 @@
+<footer class="border-t border-[var(--border)] bg-[var(--surface)]">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="grid gap-8 md:grid-cols-[2fr_1fr_1fr_1fr]">
+            <div>
+                <div class="text-lg font-black">کینگ<span class="text-[#eab308]"> مووی</span></div>
+                <p class="mt-3 max-w-sm text-sm leading-7 text-[var(--foreground)]/65">
+                    تجربه‌ای سینمایی برای کشف فیلم، سریال و انیمه؛ مرتب، سریع و مناسب سلیقه فارسی‌زبان.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-[var(--foreground)]">مرور</h3>
+                <ul class="mt-3 space-y-2 text-sm text-[var(--foreground)]/65">
+                    <li><a href="#" class="transition hover:text-[#eab308]">فیلم‌ها</a></li>
+                    <li><a href="#" class="transition hover:text-[#eab308]">سریال‌ها</a></li>
+                    <li><a href="#" class="transition hover:text-[#eab308]">انیمه</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-[var(--foreground)]">حساب کاربری</h3>
+                <ul class="mt-3 space-y-2 text-sm text-[var(--foreground)]/65">
+                    <li><a href="{% url 'accounts:login' %}" class="transition hover:text-[#eab308]">ورود</a></li>
+                    <li><a href="{% url 'accounts:register' %}" class="transition hover:text-[#eab308]">ثبت‌نام</a></li>
+                    <li><a href="#" class="transition hover:text-[#eab308]">لیست تماشا</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-[var(--foreground)]">کینگ مووی</h3>
+                <ul class="mt-3 space-y-2 text-sm text-[var(--foreground)]/65">
+                    <li><a href="#" class="transition hover:text-[#eab308]">درباره ما</a></li>
+                    <li><a href="#" class="transition hover:text-[#eab308]">قوانین</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-8 flex flex-col justify-between gap-3 border-t border-[var(--border)] pt-5 text-xs text-[var(--foreground)]/55 sm:flex-row">
+            <p>© {% now "Y" %} کینگ مووی. تمام حقوق محفوظ است.</p>
+            <p>ساخته شده برای طرفداران سینما.</p>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,82 @@
+<section class="relative isolate w-full overflow-hidden border-b border-(--border) bg-(--background)" style="min-height: 32rem;">
+    {% if item %}
+        <div class="absolute inset-0">
+            {% if item.backdrop %}
+                <img src="{{ item.backdrop.url }}" alt="{{ item.persian_title|default:item.title }}" class="block h-full w-full object-cover">
+            {% elif item.poster %}
+                <img src="{{ item.poster.url }}" alt="{{ item.persian_title|default:item.title }}" class="block h-full w-full object-cover">
+            {% endif %}
+        </div>
+
+        <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,10,.92)_0%,rgba(10,10,10,.74)_42%,rgba(10,10,10,.46)_72%,rgba(10,10,10,.28)_100%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(234,179,8,.12),transparent_35%)]"></div>
+
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid min-h-128 items-center gap-10 py-10 md:grid-cols-5 md:py-14">
+                <div class="max-w-2xl text-white md:col-span-3">
+                    <div class="mb-4 flex flex-wrap items-center gap-2">
+                        {% include "components/ui/badge.html" with label="پیشنهاد ویژه" variant="primary" %}
+                        {% if item.imdb_rating %}
+                            {% include "components/ui/badge.html" with label=item.imdb_rating prefix="IMDb" %}
+                        {% endif %}
+                        {% if item.release_date %}
+                            {% include "components/ui/badge.html" with label=item.release_date|date:"Y" %}
+                        {% endif %}
+                    </div>
+
+                    <h1 class="text-3xl font-black leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,.45)] sm:text-5xl">
+                        {{ item.persian_title|default:item.title|default:"عنوان ویژه" }}
+                    </h1>
+
+                    {% if item.original_title %}
+                        <p class="mt-3 text-sm font-semibold text-[#eab308] sm:text-base">
+                            {{ item.original_title }}
+                        </p>
+                    {% endif %}
+
+                    {% if item.overview %}
+                        <p class="mt-5 max-w-xl text-sm leading-8 text-white/78 sm:text-base">
+                            {{ item.overview }}
+                        </p>
+                    {% endif %}
+
+                    <div class="mt-8 flex flex-wrap items-center gap-3">
+                        {% include "components/ui/button.html" with href="#" label="مشاهده جزئیات" variant="primary" %}
+                        {% if item.trailer %}
+                            {% include "components/ui/button.html" with href=item.trailer label="تماشای تریلر" variant="ghost" %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="justify-self-end md:col-span-2">
+                    <div class="w-full max-w-xs overflow-hidden rounded-lg border border-white/10 bg-black/20 shadow-2xl shadow-black/40 backdrop-blur-sm">
+                        <div class="relative w-full" style="aspect-ratio: 2 / 3;">
+                            {% if item.poster %}
+                                <img src="{{ item.poster.url }}" alt="{{ item.persian_title|default:item.title }}" class="block h-full w-full object-cover">
+                            {% else %}
+                                <div class="flex h-full w-full items-center justify-center px-6 text-center text-sm text-white/60">
+                                    پوستر موجود نیست
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if item.media_type %}
+                        <div class="mt-3 text-center text-xs font-bold uppercase tracking-[0.2em] text-[#eab308]">
+                            {{ item.get_media_type_display }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="mx-auto flex min-h-105 max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
+            <div class="max-w-lg rounded-lg border border-dashed border-(--border) bg-(--surface) p-6">
+                {% include "components/ui/badge.html" with label="خانه" variant="primary" %}
+                <h1 class="mt-4 text-3xl font-black text-(--foreground)">هنوز عنوانی برای نمایش وجود ندارد</h1>
+                <p class="mt-3 text-sm leading-7 text-(--foreground)/65">
+                    پس از افزودن رسانه‌ها از پنل مدیریت، آیتم ویژه این بخش از داده‌های ارسال‌شده توسط view نمایش داده می‌شود.
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</section>

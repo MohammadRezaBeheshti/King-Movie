@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 
 {% block layout %}
+    {% include "components/layout/navbar.html" %}
 
-{% include "components/navbar.html" %}
+    <main class="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+        {% block content %}
+        {% endblock %}
+    </main>
 
-<main>
-
-    {% block content %}
-    {% endblock %}
-
-</main>
-
-{% include "components/footer.html" %}
-
+    {% include "components/layout/footer.html" %}
 {% endblock %}
