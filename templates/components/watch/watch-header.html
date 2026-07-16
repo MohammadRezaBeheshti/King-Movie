@@ -1,0 +1,43 @@
+<div class="space-y-4 border-b border-[var(--border)] pb-6">
+    <!-- Back to details link -->
+    <a href="{% url 'media_detail' media.slug %}" class="inline-flex items-center gap-2 text-sm text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors duration-200">
+        <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>بازگشت به صفحه معرفی اثر</span>
+    </a>
+
+    <!-- Title and metadata -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                تماشای {{ media.persian_title|default:media.title }}
+                {% if active_episode %}
+                     - فصل {{ active_season.season_number }} قسمت {{ active_episode.episode_number }}
+                {% endif %}
+            </h1>
+            <p class="text-sm text-[var(--muted-foreground)] mt-1 font-mono">
+                {{ media.original_title }} {% if active_episode %}| Season {{ active_season.season_number }} Episode {{ active_episode.episode_number }}{% endif %}
+            </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+            {% if media.imdb_rating %}
+                <span class="inline-flex items-center gap-1 bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full text-xs font-semibold border border-yellow-500/20">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/>
+                    </svg>
+                    <span>{{ media.imdb_rating }} IMDb</span>
+                </span>
+            {% endif %}
+            <span class="bg-[var(--muted)] text-[var(--muted-foreground)] px-3 py-1 rounded-full text-xs font-medium">
+                {{ media.get_media_type_display }}
+            </span>
+            {% if media.runtime %}
+                <span class="bg-[var(--muted)] text-[var(--muted-foreground)] px-3 py-1 rounded-full text-xs font-medium">
+                    {{ media.runtime }} دقیقه
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>

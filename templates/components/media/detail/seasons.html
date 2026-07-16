@@ -11,7 +11,7 @@
                     <h3 class="text-base font-black text-[var(--foreground)]">فصل {{ season.season_number }}</h3>
                     <div class="mt-4 grid gap-2 sm:grid-cols-2">
                         {% for episode in season.episodes.all %}
-                            <div class="rounded-md bg-[var(--muted)] p-3">
+                            <a href="{% url 'watch_view' media.slug %}?season={{ season.season_number }}&episode={{ episode.episode_number }}" class="block rounded-md bg-[var(--muted)] p-3 hover:bg-[var(--primary)]/5 hover:ring-1 hover:ring-[var(--primary)]/20 transition-all">
                                 <div class="flex items-center justify-between gap-3">
                                     <p class="text-sm font-bold text-[var(--foreground)]">قسمت {{ episode.episode_number }}</p>
                                     {% if episode.runtime %}
@@ -19,7 +19,7 @@
                                     {% endif %}
                                 </div>
                                 <p class="mt-1 truncate text-xs text-[var(--foreground)]/60">{{ episode.title }}</p>
-                            </div>
+                            </a>
                         {% empty %}
                             <div class="rounded-md border border-dashed border-[var(--border)] p-3 text-sm text-[var(--foreground)]/45">
                                 قسمتی برای این فصل ثبت نشده است.

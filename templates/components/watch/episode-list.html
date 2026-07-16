@@ -1,0 +1,55 @@
+<div class="bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius)] p-6 shadow-sm space-y-4">
+    <h3 class="font-bold text-lg border-b border-[var(--border)] pb-3 text-[var(--foreground)] flex items-center gap-2">
+        <svg class="w-5 h-5 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+        </svg>
+        <span>فصل‌ها و قسمت‌ها</span>
+    </h3>
+
+    <div class="space-y-3">
+        {% for season in seasons %}
+            <details class="group border border-[var(--border)] rounded-xl bg-[var(--background)] overflow-hidden" {% if active_season.id == season.id %}open{% endif %}>
+                <summary class="flex items-center justify-between p-4 cursor-pointer list-none select-none font-bold text-sm text-[var(--foreground)] hover:bg-[var(--primary)]/5 transition-colors">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-[var(--primary)] rounded-full"></span>
+                        <span>فصل {{ season.season_number }}</span>
+                        <span class="text-xs font-normal text-[var(--muted-foreground)]">({{ season.episodes.all|length }} قسمت)</span>
+                    </div>
+                    <span class="transition-transform duration-300 group-open:rotate-180 text-[var(--muted-foreground)]">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </span>
+                </summary>
+                
+                <div class="border-t border-[var(--border)] bg-[var(--surface)] divide-y divide-[var(--border)]">
+                    {% for ep in season.episodes.all %}
+                        <a 
+                            href="{% url 'watch_view' media.slug %}?season={{ season.season_number }}&episode={{ ep.episode_number }}" 
+                            class="flex items-center justify-between px-4 py-3 hover:bg-[var(--primary)]/5 text-sm transition-colors {% if active_episode.id == ep.id %}bg-[var(--primary)]/5 border-r-2 border-[var(--primary)] font-bold text-[var(--primary)]{% else %}text-[var(--foreground)]{% endif %}"
+                        >
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-lg {% if active_episode.id == ep.id %}bg-[var(--primary)] text-[var(--primary-foreground)]{% else %}bg-[var(--muted)] text-[var(--muted-foreground)]{% endif %} flex items-center justify-center text-xs font-mono font-bold">
+                                    {{ ep.episode_number }}
+                                </span>
+                                <span>{{ ep.title }}</span>
+                            </div>
+                            
+                            {% if ep.runtime %}
+                                <span class="text-xs text-[var(--muted-foreground)] font-mono">{{ ep.runtime }} دقیقه</span>
+                            {% endif %}
+                        </a>
+                    {% empty %}
+                        <div class="p-4 text-center text-xs text-[var(--muted-foreground)]">
+                            هیچ قسمتی برای این فصل ثبت نشده است.
+                        </div>
+                    {% endfor %}
+                </div>
+            </details>
+        {% empty %}
+            <div class="text-center text-sm text-[var(--muted-foreground)] py-4">
+                هیچ فصل یا قسمتی برای این عنوان ثبت نشده است.
+            </div>
+        {% endfor %}
+    </div>
+</div>

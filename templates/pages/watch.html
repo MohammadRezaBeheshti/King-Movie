@@ -1,0 +1,44 @@
+{% extends "layouts/app.html" %}
+
+{% block title %}{{ media.persian_title|default:media.title }} | تماشا آنلاین و دانلود{% endblock %}
+
+{% block content %}
+    <div class="bg-[var(--background)] text-[var(--foreground)]">
+        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+            {% include "components/watch/watch-header.html" %}
+
+            {% if not sources and not seasons %}
+                <div class="flex flex-col items-center justify-center p-12 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius)] text-center shadow-sm">
+                    <svg class="w-16 h-16 text-[var(--muted-foreground)] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                    <h2 class="text-xl font-bold text-[var(--foreground)] mb-2">منبعی یافت نشد</h2>
+                    <p class="text-[var(--muted-foreground)]">لینک پخش یا دانلود هنوز برای این عنوان ثبت نشده است.</p>
+                </div>
+            {% else %}
+                <div class="grid gap-8 lg:grid-cols-3">
+                    <!-- Column 1 & 2: Video Player & Sources -->
+                    <div class="lg:col-span-2 space-y-6">
+                        {% include "components/watch/player.html" %}
+                        {% include "components/watch/source-list.html" %}
+                    </div>
+
+                    <!-- Column 3: Episode list (if Series / Anime) -->
+                    <aside class="space-y-6">
+                        {% if media.media_type == "series" or media.media_type == "anime" %}
+                            {% include "components/watch/episode-list.html" %}
+                        {% else %}
+                            <!-- For movies, we can show a card with movie overview / poster -->
+                            <div class="bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius)] p-6 shadow-sm space-y-4">
+                                <h3 class="font-bold text-lg border-b border-[var(--border)] pb-3 font-sans">درباره فیلم</h3>
+                                <p class="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    {{ media.overview|default:"خلاصه داستان ثبت نشده است." }}
+                                </p>
+                            </div>
+                        {% endif %}
+                    </aside>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

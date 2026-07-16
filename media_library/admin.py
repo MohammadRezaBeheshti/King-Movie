@@ -10,6 +10,7 @@ from .models import (
     Episode,
     Genre,
     Media,
+    MediaSource,
     MediaType,
     Season,
 )
@@ -71,6 +72,23 @@ class SeasonInline(admin.TabularInline):
 
         url = reverse("admin:media_library_season_change", args=[obj.pk])
         return format_html('<a href="{}">ویرایش فصل و قسمت‌ها</a>', url)
+
+
+class MediaSourceInline(admin.TabularInline):
+    model = MediaSource
+    extra = 1
+    fields = (
+        "title",
+        "quality",
+        "language",
+        "subtitle_language",
+        "source_type",
+        "url",
+        "file_size",
+        "is_active",
+        "ordering",
+    )
+    ordering = ("ordering", "quality")
 
 
 @admin.register(Media)
@@ -174,9 +192,13 @@ class MediaAdmin(admin.ModelAdmin):
         )
 
     def get_inline_instances(self, request, obj=None):
-        if obj and obj.media_type in {MediaType.SERIES, MediaType.ANIME}:
-            return super().get_inline_instances(request, obj)
-        return []
+        inlines = []
+        if obj:
+            if obj.media_type in {MediaType.SERIES, MediaType.ANIME}:
+                inlines.append(SeasonInline)
+            else:
+                inlines.append(MediaSourceInline)
+        return [inline(self.model, self.admin_site) for inline in inlines]
 
     @admin.display(description="عنوان")
     def display_title(self, obj):
@@ -274,6 +296,7 @@ class SeasonAdmin(admin.ModelAdmin):
 
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
+    inlines = (MediaSourceInline,)
     list_display = (
         "title",
         "media_title",
@@ -305,3 +328,47 @@ class EpisodeAdmin(admin.ModelAdmin):
     @admin.display(description="فصل", ordering="season__season_number")
     def season_number(self, obj):
         return obj.season.season_number
+
+
+@admin.register(MediaSource)
+class MediaSourceAdmin(admin.ModelAdmin):
+    list_display = (
+        "media_title",
+        "episode_info",
+        "title",
+        "quality",
+        "language",
+        "source_type",
+        "is_active",
+        "ordering",
+    )
+    list_editable = ("is_active", "ordering")
+    list_filter = (
+        "source_type",
+        "quality",
+        "language",
+        "is_active",
+        "media__media_type",
+    )
+    search_fields = (
+        "title",
+        "media__persian_title",
+        "media__title",
+        "episode__title",
+        "url",
+    )
+    ordering = ("media", "episode", "ordering")
+    raw_id_fields = ("media", "episode")
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related("media", "episode")
+
+    @admin.display(description="رسانه", ordering="media__persian_title")
+    def media_title(self, obj):
+        return obj.media.persian_title or obj.media.title
+
+    @admin.display(description="فصل / قسمت", ordering="episode__episode_number")
+    def episode_info(self, obj):
+        if obj.episode:
+            return f"فصل {obj.episode.season.season_number} | قسمت {obj.episode.episode_number}"
+        return "فیلم / انیمیشن"

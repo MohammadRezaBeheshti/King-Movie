@@ -204,8 +204,81 @@ class Episode(models.Model):
         unique_together = ["season", "episode_number"]
 
     def __str__(self):
-         return (
+          return (
             f"{self.season.media.persian_title} | "
             f"فصل {self.season.season_number} | "
             f"قسمت {self.episode_number}"
     )
+
+class MediaSource(models.Model):
+    class QualityChoices(models.TextChoices):
+        P480 = "480p", "480p"
+        P720 = "720p", "720p"
+        P1080 = "1080p", "1080p"
+        P2160 = "2160p", "2160p (4K)"
+
+    class LanguageChoices(models.TextChoices):
+        DUBBED = "dubbed", "دوبله"
+        SUBTITLE = "subtitle", "زیرنویس"
+
+    class SourceTypeChoices(models.TextChoices):
+        STREAM = "stream", "پخش آنلاین"
+        DOWNLOAD = "download", "دانلود مستقیم"
+
+    media = models.ForeignKey(
+        Media,
+        on_delete=models.CASCADE,
+        related_name="sources",
+        verbose_name="رسانه"
+    )
+    episode = models.ForeignKey(
+        Episode,
+        on_delete=models.CASCADE,
+        related_name="sources",
+        verbose_name="قسمت",
+        null=True,
+        blank=True
+    )
+    title = models.CharField("عنوان منبع", max_length=255)
+    quality = models.CharField(
+        "کیفیت",
+        max_length=20,
+        choices=QualityChoices.choices,
+        default=QualityChoices.P1080
+    )
+    language = models.CharField(
+        "زبان",
+        max_length=20,
+        choices=LanguageChoices.choices,
+        default=LanguageChoices.SUBTITLE
+    )
+    subtitle_language = models.CharField(
+        "زبان زیرنویس",
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    source_type = models.CharField(
+        "نوع منبع",
+        max_length=20,
+        choices=SourceTypeChoices.choices,
+        default=SourceTypeChoices.DOWNLOAD
+    )
+    url = models.URLField("آدرس URL", max_length=1000)
+    file_size = models.CharField(
+        "حجم فایل",
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    is_active = models.BooleanField("فعال", default=True)
+    ordering = models.IntegerField("ترتیب", default=0)
+
+    class Meta:
+        verbose_name = "منبع رسانه"
+        verbose_name_plural = "منابع رسانه‌ها"
+        ordering = ["ordering", "id"]
+
+    def __str__(self):
+        episode_str = f" | فصل {self.episode.season.season_number} قسمت {self.episode.episode_number}" if self.episode else ""
+        return f"{self.media.persian_title or self.media.title}{episode_str} | {self.get_quality_display()} | {self.get_language_display()}"

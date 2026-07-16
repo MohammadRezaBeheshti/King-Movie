@@ -31,6 +31,7 @@ from media_library.views import (
     search,
     search_suggestions,
     series_archive,
+    watch_view,
 )
 
 urlpatterns = [
@@ -45,6 +46,7 @@ urlpatterns = [
     path("search/suggestions/", search_suggestions, name="search_suggestions"),
     path("profile/", profile_view, name="profile"),
     path("media/<slug:slug>/", media_detail, name="media_detail"),
+    path("watch/<slug:slug>/", watch_view, name="watch_view"),
     path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
 ]

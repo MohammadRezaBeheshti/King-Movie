@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from interactions.forms import RatingForm, ReviewForm
 from interactions.models import Favorite, Rating, Review, Watchlist
 from media_library.forms import SearchForm
-from media_library.models import Actor, Country, Director, Episode, Genre, Media, MediaStatus, MediaType, Season
+from media_library.models import Actor, Country, Director, Episode, Genre, Media, MediaSource, MediaStatus, MediaType, Season
 
 
 SEARCH_SORT_CHOICES = [
@@ -349,3 +349,86 @@ def media_detail(request, slug):
     }
 
     return render(request, "pages/media-detail.html", context)
+
+
+def watch_view(request, slug):
+    approved_reviews_queryset = Review.objects.filter(
+        is_approved=True
+    ).select_related("user")
+
+    seasons_queryset = Season.objects.prefetch_related(
+        Prefetch(
+            "episodes",
+            queryset=Episode.objects.order_by("episode_number"),
+        )
+    ).order_by("season_number")
+
+    media = get_object_or_404(
+        Media.objects.select_related().prefetch_related(
+            "genres",
+            "countries",
+            Prefetch("seasons", queryset=seasons_queryset),
+        ),
+        slug=slug,
+    )
+
+    active_season_num = request.GET.get("season")
+    active_episode_num = request.GET.get("episode")
+
+    active_episode = None
+    active_season = None
+    sources = []
+
+    if media.media_type in [MediaType.SERIES, MediaType.ANIME]:
+        seasons = list(media.seasons.all())
+        if seasons:
+            try:
+                s_num = int(active_season_num) if active_season_num else 1
+                e_num = int(active_episode_num) if active_episode_num else 1
+            except ValueError:
+                s_num = 1
+                e_num = 1
+
+            active_season = next((s for s in seasons if s.season_number == s_num), None)
+            if not active_season and seasons:
+                active_season = seasons[0]
+
+            if active_season:
+                episodes = list(active_season.episodes.all())
+                active_episode = next((e for e in episodes if e.episode_number == e_num), None)
+                if not active_episode and episodes:
+                    active_episode = episodes[0]
+
+            if active_episode:
+                sources = list(
+                    MediaSource.objects.filter(
+                        media=media,
+                        episode=active_episode,
+                        is_active=True
+                    ).order_by("ordering", "id")
+                )
+    else:
+        sources = list(
+            MediaSource.objects.filter(
+                media=media,
+                episode__isnull=True,
+                is_active=True
+            ).order_by("ordering", "id")
+        )
+
+    stream_sources = [s for s in sources if s.source_type == MediaSource.SourceTypeChoices.STREAM]
+    download_sources = [s for s in sources if s.source_type == MediaSource.SourceTypeChoices.DOWNLOAD]
+    default_stream_source = stream_sources[0] if stream_sources else None
+
+    context = {
+        "media": media,
+        "seasons": media.seasons.all() if media.media_type in [MediaType.SERIES, MediaType.ANIME] else [],
+        "active_season": active_season,
+        "active_episode": active_episode,
+        "sources": sources,
+        "stream_sources": stream_sources,
+        "download_sources": download_sources,
+        "default_stream_source": default_stream_source,
+    }
+
+    return render(request, "pages/watch.html", context)
