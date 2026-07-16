@@ -1,17 +1,33 @@
-<section>
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {% include "components/ui/section-title.html" with title=title eyebrow=eyebrow %}
+﻿<section>
+    <div class="flex items-center justify-between mx-auto max-w-7xl">
+        <div class=" px-4 sm:px-6 lg:px-8">
+            {% include "components/ui/section-title.html" with title=title eyebrow=eyebrow %}
+        </div>
+        <div class="embla__buttons pointer-events-auto">
+            <button class="embla__button embla__button--prev size-8 lg:size-10" type="button" aria-label="اسلاید قبلی">
+                <span aria-hidden="true">‹</span>
+            </button>
+            <button class="embla__button embla__button--next size-8 lg:size-10" type="button" aria-label="اسلاید بعدی">
+                <span aria-hidden="true">›</span>
+            </button>
+        </div>
     </div>
 
-    <div class="mx-auto mt-4 flex max-w-7xl snap-x scroll-px-4 gap-4 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {% for media in items %}
-            <div class="snap-start">
-                {% include "components/media/media-card.html" %}
+    <div class="media-row-slider embla mt-4 mx-auto max-w-7xl" data-media-row-slider>
+        <div class="embla__viewport" data-media-row-viewport>
+            <div class="embla__container">
+                {% for media in items %}
+                    <div class="embla__slide">
+                        {% include "components/media/media-card.html" %}
+                    </div>
+                {% empty %}
+                    <div class="embla__slide">
+                        <div class="rounded-lg border border-dashed border-(--border) bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
+                            موردی برای نمایش در «{{ title }}» وجود ندارد.
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% empty %}
-            <div class="w-full shrink-0 rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-8 text-center text-sm text-[var(--foreground)]/60">
-                موردی برای نمایش در «{{ title }}» وجود ندارد.
-            </div>
-        {% endfor %}
+        </div>
     </div>
 </section>

@@ -3,3 +3,205 @@
 @import "./theme.css";
 @import "./fonts.css";
 @import "./base.css";
+
+.hero-slider-section {
+  --hero-control-size: 3rem;
+}
+
+.hero-slider .embla__viewport {
+  overflow: hidden;
+}
+
+.hero-slider .embla__container {
+  display: flex;
+}
+
+.hero-slider .embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.hero-slide__overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 10, 18, 0.94) 0%,
+      rgba(7, 10, 18, 0.78) 34%,
+      rgba(7, 10, 18, 0.38) 60%,
+      rgba(7, 10, 18, 0.82) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7, 10, 18, 0.18) 0%,
+      rgba(7, 10, 18, 0.64) 100%
+    );
+}
+
+.hero-slide__background img {
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.hero-slide__poster-card {
+  width: min(100%, 20rem);
+  border-radius: 0.5rem;
+}
+
+.hero-slider .embla__buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-slider .embla__button {
+  width: var(--hero-control-size);
+  height: var(--hero-control-size);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.68);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.hero-slider .embla__button:hover:not(:disabled) {
+  background: rgba(229, 9, 20, 0.9);
+  border-color: rgba(229, 9, 20, 0.9);
+  transform: translateY(-1px);
+}
+
+.hero-slider .embla__button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.hero-slider .embla__dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.hero-slider .embla__dot {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 9999px;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.3);
+  transition:
+    width 180ms ease,
+    background-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.hero-slider .embla__dot--selected {
+  width: 2rem;
+  background: var(--primary);
+}
+
+.media-row-slider ~ .embla__buttons,
+section .embla__buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+section .embla__button {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.68);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+section .embla__button:hover:not(:disabled) {
+  background: rgba(229, 9, 20, 0.9);
+  border-color: rgba(229, 9, 20, 0.9);
+  transform: translateY(-1px);
+}
+
+section .embla__button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+@media (max-width: 1023px) {
+  .hero-slide__overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(7, 10, 18, 0.48) 0%,
+        rgba(7, 10, 18, 0.7) 46%,
+        rgba(7, 10, 18, 0.94) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(7, 10, 18, 0.72) 0%,
+        rgba(7, 10, 18, 0.28) 100%
+      );
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-slider-section {
+    --hero-control-size: 2.7rem;
+  }
+}
+
+/* ===== Media Row Slider ===== */
+.media-row-slider {
+  overflow: hidden;
+}
+
+.media-row-slider .embla__viewport {
+  overflow: hidden;
+}
+
+.media-row-slider .embla__container {
+  display: flex;
+}
+
+.media-row-slider .embla__slide {
+  flex: 0 0 50%; /* Mobile: 2 slides */
+  min-width: 0;
+  padding-inline-start: 0.75rem;
+}
+
+.media-row-slider .embla__slide:first-child {
+  padding-inline-start: 1rem;
+}
+
+.media-row-slider .embla__slide article {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .media-row-slider .embla__slide {
+    flex: 0 0 40%; /* Tablet: 2.5 slides */
+  }
+}
+
+@media (min-width: 1024px) {
+  .media-row-slider .embla__slide {
+    flex: 0 0 calc(100% / 5.5); /* Desktop: 5.5 slides */
+  }
+}

@@ -1,4 +1,4 @@
-<article class="group w-40 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[var(--primary)]/60 hover:shadow-xl sm:w-44 lg:w-52">
+<article class="{% if card_classes %}{{ card_classes }}{% else %}group w-40 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[var(--primary)]/60 hover:shadow-xl sm:w-44 lg:w-52{% endif %}">
     <a href="{% url 'media_detail' media.slug %}" class="block focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/60">
         <div class="relative overflow-hidden bg-[var(--muted)]" style="aspect-ratio: 2 / 3;">
             {% if media.poster %}
@@ -32,4 +32,11 @@
             </div>
         </div>
     </a>
+    {% if show_genre_link and media.primary_genre %}
+            <div class="px-3 pb-3">
+                <a href="{% url 'genre_detail' media.primary_genre.slug %}" class="inline-flex rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/8 px-2.5 py-1 text-[11px] font-bold text-[var(--primary)] transition hover:border-[var(--primary)]/40 hover:bg-[var(--primary)]/14">
+                    {{ media.primary_genre.name }}
+                </a>
+            </div>
+    {% endif %}
 </article>

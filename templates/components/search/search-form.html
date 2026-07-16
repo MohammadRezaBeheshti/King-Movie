@@ -1,4 +1,4 @@
-<form method="get" action="{% url 'search' %}" class="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl">
+﻿<form method="get" action="{% url 'search' %}" class="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 shadow-xl" data-search-form>
     <div class="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
             <p class="text-xs font-black uppercase text-[var(--primary)]">Advanced Search</p>
@@ -19,12 +19,29 @@
         {% include "components/search/search-filter.html" with label="نوع رسانه" field=form.type %}
         {% include "components/search/search-filter.html" with label="ژانر" field=form.genre %}
         {% include "components/search/search-filter.html" with label="کشور" field=form.country %}
-        {% include "components/search/search-filter.html" with label="از سال" field=form.year_from %}
-        {% include "components/search/search-filter.html" with label="تا سال" field=form.year_to %}
-        {% include "components/search/search-filter.html" with label="حداقل IMDb" field=form.rating %}
-        {% include "components/search/search-filter.html" with label="وضعیت" field=form.status %}
-        {% include "components/search/search-filter.html" with label="کارگردان" field=form.director %}
-        {% include "components/search/search-filter.html" with label="بازیگر" field=form.actor %}
-        {% include "components/search/search-filter.html" with label="مرتب‌سازی" field=form.sort %}
+    </div>
+
+    <div class="mt-4 hidden" data-search-form-extra>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {% include "components/search/search-filter.html" with label="از سال" field=form.year_from %}
+            {% include "components/search/search-filter.html" with label="تا سال" field=form.year_to %}
+            {% include "components/search/search-filter.html" with label="حداقل IMDb" field=form.rating %}
+            {% include "components/search/search-filter.html" with label="وضعیت" field=form.status %}
+            {% include "components/search/search-filter.html" with label="کارگردان" field=form.director %}
+            {% include "components/search/search-filter.html" with label="بازیگر" field=form.actor %}
+            {% include "components/search/search-filter.html" with label="مرتب‌سازی" field=form.sort %}
+        </div>
+    </div>
+
+    <div class="mt-4 flex justify-center">
+        <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--foreground)] transition hover:border-[var(--primary)]/60 hover:text-[var(--primary)]"
+            data-search-form-toggle
+            aria-expanded="false"
+        >
+            <span data-search-form-toggle-label>نمایش بیشتر</span>
+            <span data-search-form-toggle-icon aria-hidden="true">+</span>
+        </button>
     </div>
 </form>

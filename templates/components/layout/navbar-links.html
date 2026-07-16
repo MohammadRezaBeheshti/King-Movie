@@ -1,23 +1,28 @@
 <nav class="order-3 w-full md:order-none md:w-auto" aria-label="ناوبری اصلی">
     <ul class="flex items-center gap-1 overflow-x-auto pb-1 text-sm font-medium text-[var(--foreground)]/75 md:overflow-visible md:pb-0">
         <li>
-            <a href="{% url 'home' %}" class="block rounded-full px-3 py-2 text-[var(--primary)] transition hover:bg-[var(--muted)] hover:text-[var(--primary)]">
+            <a href="{% url 'home' %}" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]{% if request.resolver_match.url_name == 'home' %} bg-[var(--muted)] text-[var(--primary)] font-bold{% else %} text-[var(--foreground)]/75{% endif %}">
                 خانه
             </a>
         </li>
         <li>
-            <a href="#" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]">
+            <a href="{% url 'movies_archive' %}" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]{% if request.resolver_match.url_name == 'movies_archive' %} bg-[var(--muted)] text-[var(--primary)] font-bold{% else %} text-[var(--foreground)]/75{% endif %}">
                 فیلم‌ها
             </a>
         </li>
         <li>
-            <a href="#" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]">
+            <a href="{% url 'series_archive' %}" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]{% if request.resolver_match.url_name == 'series_archive' %} bg-[var(--muted)] text-[var(--primary)] font-bold{% else %} text-[var(--foreground)]/75{% endif %}">
                 سریال‌ها
             </a>
         </li>
         <li>
-            <a href="#" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]">
+            <a href="{% url 'anime_archive' %}" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]{% if request.resolver_match.url_name == 'anime_archive' %} bg-[var(--muted)] text-[var(--primary)] font-bold{% else %} text-[var(--foreground)]/75{% endif %}">
                 انیمه
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'animation_archive' %}" class="block rounded-full px-3 py-2 transition hover:bg-[var(--muted)] hover:text-[var(--primary)]{% if request.resolver_match.url_name == 'animation_archive' %} bg-[var(--muted)] text-[var(--primary)] font-bold{% else %} text-[var(--foreground)]/75{% endif %}">
+                انیمیشن
             </a>
         </li>
     </ul>

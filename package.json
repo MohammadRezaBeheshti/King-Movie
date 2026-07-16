@@ -21,6 +21,7 @@
   "homepage": "https://github.com/MohammadRezaBeheshti/King-Movie#readme",
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
+    "embla-carousel": "^8.6.0",
     "tailwindcss": "^4.3.2",
     "vite": "^8.1.4"
   }

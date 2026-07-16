@@ -1,0 +1,9 @@
+<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    {% for media in items %}
+        {% include "components/media/media-card.html" with media=media card_classes="group min-w-0 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[var(--primary)]/60 hover:shadow-xl" show_genre_link=show_genre_link %}
+    {% empty %}
+        <div class="col-span-full rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] px-5 py-10 text-center text-sm text-[var(--foreground)]/60">
+            {{ empty_message|default:"موردی برای نمایش وجود ندارد." }}
+        </div>
+    {% endfor %}
+</div>

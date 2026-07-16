@@ -47,7 +47,9 @@
 
                 <div class="mt-5 flex flex-wrap gap-2">
                     {% for genre in media.genres.all %}
-                        <span class="rounded-full border border-[var(--primary)]/35 bg-[var(--primary)]/10 px-3 py-1 text-xs font-bold text-[var(--primary)]">{{ genre.name }}</span>
+                        <a href="{% url 'genre_detail' genre.slug %}" class="rounded-full border border-[var(--primary)]/35 bg-[var(--primary)]/10 px-3 py-1 text-xs font-bold text-[var(--primary)] transition hover:border-[var(--primary)]/55 hover:bg-[var(--primary)]/16">
+                            {{ genre.name }}
+                        </a>
                     {% empty %}
                         <span class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-xs text-[var(--foreground)]/55">ژانر ثبت نشده</span>
                     {% endfor %}

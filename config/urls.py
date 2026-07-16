@@ -21,11 +21,26 @@ from django.conf.urls.static import static
 from django.urls import include, path
 
 from accounts.views import profile_view
-from media_library.views import home, media_detail, search, search_suggestions
+from media_library.views import (
+    anime_archive,
+    animation_archive,
+    genre_detail,
+    home,
+    media_detail,
+    movies_archive,
+    search,
+    search_suggestions,
+    series_archive,
+)
 
 urlpatterns = [
     path("", home, name="home"),
     path("", include("interactions.urls")),
+    path("movies/", movies_archive, name="movies_archive"),
+    path("series/", series_archive, name="series_archive"),
+    path("anime/", anime_archive, name="anime_archive"),
+    path("animations/", animation_archive, name="animation_archive"),
+    path("genre/<slug:slug>/", genre_detail, name="genre_detail"),
     path("search/", search, name="search"),
     path("search/suggestions/", search_suggestions, name="search_suggestions"),
     path("profile/", profile_view, name="profile"),

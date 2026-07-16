@@ -38,6 +38,32 @@ def get_optimized_media_queryset():
     )
 
 
+def get_media_archive_queryset():
+    return Media.objects.select_related().prefetch_related(
+        "genres",
+    ).order_by("-release_date", "persian_title", "title")
+
+
+def enrich_media_items(media_items):
+    for media in media_items:
+        genres = list(media.genres.all())
+        media.primary_genre = genres[0] if genres else None
+    return media_items
+
+
+def render_media_archive(request, media_type, title, eyebrow, empty_message):
+    media_items = enrich_media_items(
+        list(get_media_archive_queryset().filter(media_type=media_type))
+    )
+    context = {
+        "page_title": title,
+        "page_eyebrow": eyebrow,
+        "media_items": media_items,
+        "empty_message": empty_message,
+    }
+    return render(request, "pages/archive/media-list.html", context)
+
+
 def apply_media_search_filters(queryset, form):
     if not form.is_valid():
         return queryset.none()
@@ -100,28 +126,89 @@ def home(request):
         media_type="anime"
     ).order_by("-release_date")[:8]
 
-    hero_item = (
-        Media.objects
-        .filter(is_featured=True)
-        .first()
+    featured_media = list(
+        Media.objects.filter(is_featured=True)
+        .prefetch_related("genres")
+        .order_by("-release_date", "-updated_at")[:6]
     )
 
-    if hero_item is None:
-        hero_item = (
+    if not featured_media:
+        fallback_item = (
             Media.objects
-            .order_by("-release_date")
+            .prefetch_related("genres")
+            .order_by("-release_date", "-updated_at")
             .first()
         )
+        if fallback_item is not None:
+            featured_media = [fallback_item]
+
+    top_rated = Media.objects.filter(imdb_rating__isnull=False).order_by("-imdb_rating")[:8]
 
     context = {
         "latest_movies": latest_movies,
         "latest_series": latest_series,
         "latest_anime": latest_anime,
-        "hero_item": hero_item,
+        "featured_media": featured_media,
+        "top_rated": top_rated,
         "search_form": SearchForm(filter_choices=get_search_filter_choices()),
     }
 
     return render(request, "pages/home.html", context)
+
+
+def movies_archive(request):
+    return render_media_archive(
+        request=request,
+        media_type=MediaType.MOVIE,
+        title="آرشیو فیلم‌ها",
+        eyebrow="Movies",
+        empty_message="فیلمی برای نمایش وجود ندارد.",
+    )
+
+
+def series_archive(request):
+    return render_media_archive(
+        request=request,
+        media_type=MediaType.SERIES,
+        title="آرشیو سریال‌ها",
+        eyebrow="Series",
+        empty_message="سریالی برای نمایش وجود ندارد.",
+    )
+
+
+def anime_archive(request):
+    return render_media_archive(
+        request=request,
+        media_type=MediaType.ANIME,
+        title="آرشیو انیمه",
+        eyebrow="Anime",
+        empty_message="انیمه‌ای برای نمایش وجود ندارد.",
+    )
+
+
+def animation_archive(request):
+    return render_media_archive(
+        request=request,
+        media_type=MediaType.ANIMATION,
+        title="آرشیو انیمیشن‌ها",
+        eyebrow="Animations",
+        empty_message="انیمیشنی برای نمایش وجود ندارد.",
+    )
+
+
+def genre_detail(request, slug):
+    genre = get_object_or_404(Genre, slug=slug)
+    media_items = enrich_media_items(
+        list(get_media_archive_queryset().filter(genres__slug=slug).distinct())
+    )
+    context = {
+        "genre": genre,
+        "page_title": f"ژانر {genre.name}",
+        "page_eyebrow": "Genre",
+        "media_items": media_items,
+        "empty_message": f"موردی برای ژانر «{genre.name}» پیدا نشد.",
+    }
+    return render(request, "pages/archive/genre-detail.html", context)
 
 
 def search_suggestions(request):
