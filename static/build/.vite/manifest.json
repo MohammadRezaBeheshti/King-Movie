@@ -1,0 +1,18 @@
+{
+  "frontend/assets/fonts/AradFDVF.woff2": {
+    "file": "assets/AradFDVF-BtdyUKmC.woff2",
+    "src": "frontend/assets/fonts/AradFDVF.woff2"
+  },
+  "frontend/js/app.js": {
+    "file": "assets/app-Dxd4Zr__.js",
+    "name": "app",
+    "src": "frontend/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app--Y6Ncheb.css"
+    ],
+    "assets": [
+      "assets/AradFDVF-BtdyUKmC.woff2"
+    ]
+  }
+}

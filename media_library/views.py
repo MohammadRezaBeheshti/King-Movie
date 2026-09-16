@@ -1,6 +1,10 @@
+# pyrefly: ignore [missing-import]
 from django.core.paginator import Paginator
+# pyrefly: ignore [missing-import]
 from django.db.models import Prefetch, Q
+# pyrefly: ignore [missing-import]
 from django.http import JsonResponse
+# pyrefly: ignore [missing-import]
 from django.shortcuts import get_object_or_404, render
 
 from interactions.forms import RatingForm, ReviewForm

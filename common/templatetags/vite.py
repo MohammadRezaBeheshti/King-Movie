@@ -22,8 +22,11 @@ def load_manifest():
             / "manifest.json"
         )
 
-        with open(manifest_path, "r", encoding="utf-8") as f:
-            _MANIFEST = json.load(f)
+        try:
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                _MANIFEST = json.load(f)
+        except Exception:
+            _MANIFEST = {}
 
     return _MANIFEST
 
@@ -31,16 +34,18 @@ def load_manifest():
 @register.simple_tag
 def vite_asset(entry):
     manifest = load_manifest()
-    return "build/" + manifest[entry]["file"]
+    entry_data = manifest.get(entry)
+    if entry_data and "file" in entry_data:
+        return "build/" + entry_data["file"]
+    return ""
 
 
 @register.simple_tag
 def vite_css(entry):
     manifest = load_manifest()
-
-    css = manifest[entry].get("css")
-
-    if not css:
-        return ""
-
-    return "build/" + css[0]
+    entry_data = manifest.get(entry)
+    if entry_data:
+        css = entry_data.get("css")
+        if css and len(css) > 0:
+            return "build/" + css[0]
+    return ""
