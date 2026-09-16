@@ -8,7 +8,7 @@ __pycache__/
 *.pyo
 
 # Django
-db.sqlite3
+
 /media/
 
 # Collected static files
@@ -26,4 +26,4 @@ db.sqlite3
 # Node
 node_modules/
 .vite/
-!static/build/.vite/
+!static/build/.vite/
