@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
+@source "../../templates/**/*.html";
+@source "../../**/*.py";
+@source "../js/**/*.js";
+
 @import "./theme.css";
 @import "./fonts.css";
 @import "./base.css";
+
 
 .hero-slider-section {
   --hero-control-size: 3rem;

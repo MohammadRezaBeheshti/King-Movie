@@ -13,7 +13,7 @@ _MANIFEST = None
 def load_manifest():
     global _MANIFEST
 
-    if _MANIFEST is None:
+    if _MANIFEST is None or settings.DEBUG:
         manifest_path = (
             settings.BASE_DIR
             / "static"

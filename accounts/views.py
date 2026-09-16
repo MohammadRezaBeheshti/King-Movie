@@ -15,6 +15,9 @@ class UserLoginView(LoginView):
     authentication_form = LoginForm
     redirect_authenticated_user = True
 
+    def get_success_url(self):
+        return "/"
+
 
 class UserRegisterView(CreateView):
     form_class = RegisterForm
@@ -30,6 +33,10 @@ class UserRegisterView(CreateView):
     
 class UserLogoutView(LogoutView):
     next_page = "/"
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 
 
 @login_required
