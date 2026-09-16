@@ -9,7 +9,6 @@ __pycache__/
 
 # Django
 
-/media/
 
 # Collected static files
 /staticfiles/
