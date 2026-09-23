@@ -26,3 +26,8 @@ __pycache__/
 node_modules/
 .vite/
 !static/build/.vite/
+
+# Local Documentation Scripts
+generate_docs.py
+*.docx
+
